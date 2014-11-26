@@ -1,0 +1,15 @@
+{
+    "name": "jeffprestes/candies-paypal-php",
+    "description": "Sample Machine Candies selling using PHP PayPal's payment APIs",
+    "homepage": "https://github.com/jeffprestes/candies-paypal-php",
+    "config": {
+        "require-all": true
+    },
+    "require": {
+        "php": ">=5.3.0",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mysql": "*",
+        "paypal/rest-api-sdk-php" : "0.*"
+    }
+}
