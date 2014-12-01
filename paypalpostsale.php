@@ -16,7 +16,28 @@ use PayPal\Api\ExecutePayment;
 use PayPal\Api\Payment;
 use PayPal\Api\PaymentExecution;
 
+function sendReleaseMessage()   {
+    $mqtt = new spMQTT('tcp://iot.eclipse.org:1883/');
+    spMQTTDebug::Disable();
+
+    $connected = $mqtt->connect();
+    if (!$connected) {
+        return false;
+    }
+
+    $mqtt->ping();
+
+    $msg = "release";
+
+    # mosquitto_sub -t 'sskaje/#'  -q 1 -h test.mosquitto.org
+    $retorno = $mqtt->publish($_SESSION['location'], $msg, 0, 2, 0, 1);
+    
+    return ($retorno['ret']>0);
+}
+
+
 $mock = 0;
+$app = $_GET['app'];
 
 if ($mock != '1')   {
 
@@ -25,57 +46,57 @@ if ($mock != '1')   {
         $response = "";
         $error = "";
 
-        // Get the payment Object by passing paymentId
-        // payment id was previously stored in session in
-        // CreatePaymentUsingPayPal.php
-        $paymentId = $_GET['paymentId'];
-        $payment = Payment::get($paymentId, $apiContext);
+        // Depends on flow (mobile html app or paypal checkin app)
+        // a different payment execution is performed
+         
+        if ($app == 'html')     {
+            // Get the payment Object by passing paymentId
+            // payment id was previously stored in session in
+            // CreatePaymentUsingPayPal.php
+            $paymentId = $_GET['paymentId'];
+            $payment = Payment::get($paymentId, $apiContext);
 
-        // PaymentExecution object includes information necessary
-        // to execute a PayPal account payment.
-        // The payer_id is added to the request query parameters
-        // when the user is redirected from paypal back to your site
-        $execution = new PaymentExecution();
-        $execution->setPayerId($_GET['PayerID']);
-        //Execute the payment
-        // (See bootstrap.php for more on `ApiContext`)
-        $result = $payment->execute($execution, $apiContext);
+            // PaymentExecution object includes information necessary
+            // to execute a PayPal account payment.
+            // The payer_id is added to the request query parameters
+            // when the user is redirected from paypal back to your site
+            $execution = new PaymentExecution();
+            $execution->setPayerId($_GET['PayerID']);
+            //Execute the payment
+            // (See bootstrap.php for more on `ApiContext`)
+            $result = $payment->execute($execution, $apiContext);
 
-        if ($result->getState()=="approved")    {
-
-
-            $mqtt = new spMQTT('tcp://iot.eclipse.org:1883/');
-            spMQTTDebug::Disable();
-
-            $connected = $mqtt->connect();
-            if (!$connected) {
-                die("It was not possible connect to Candy Machine. Please try again.\n");
+            if ($result->getState()=="approved")    {
+                if (sendReleaseMessage())    {
+                    $response = "{status: success!}";
+                }   else    {
+                    $error = "It was not possible connect to Candy Machine. Please try again.";
+                }
+            } else {
+                $error = "Payment was not approved";
             }
+            
+        //CheckIn Payment    
+        }   else    {
+            //TODO: Implement CheckIn invoice and charge it
 
-            $mqtt->ping();
-
-            $msg = "release";
-
-            # mosquitto_sub -t 'sskaje/#'  -q 1 -h test.mosquitto.org
-            $retorno = $mqtt->publish($_SESSION['location'], $msg, 0, 2, 0, 1);
-
-            if ($retorno['ret']>0)    {
+            if (sendReleaseMessage())   {
                 $response = "{status: success!}";
+                $error = "";
             }   else    {
                 $error = "It was not possible connect to Candy Machine. Please try again.";
+                $response = "";
             }
-
-        } else {
-            $error = "Payment was not approved";
         }
-    } else {
+        
+    }   else    {
         $error = "User cancelled the payment. It's a pity".
         $response = "";
-    }
+}
     
 }   else    {
-    //$response = "{status: success!}";
-    //$error = "";
+    $response = "{status: success!}";
+    $error = "";
     //$error = "User cancelled the payment. It's a pity".
     //$response = "";
 }
@@ -98,7 +119,7 @@ if ($mock != '1')   {
         }
 
         #splash {
-            margin-left: -75px;
+            margin-left: -120px;
             margin-top: -170px;
         }
 

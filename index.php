@@ -10,8 +10,8 @@
                 position:  absolute;
                 top: 50%;
                 left: 50%;
-                margin-left: -75px;
-                margin-top: -170px;
+                margin-left: -100px;
+                margin-top: -190px;
                 text-align: center;
                 font-family: 'Lobster', cursive;
                 font-size: x-large;

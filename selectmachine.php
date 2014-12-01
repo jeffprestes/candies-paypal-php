@@ -1,5 +1,11 @@
 <?php
 session_start();
+
+$app = $_GET['app'];
+
+if ($app == 'checkin')      {
+    $_SESSION['approvalUrl'] = 'paypalpostsale.php?success=true&app=checkin';
+}   
 ?>
 <!DOCTYPE html>
 <html>
@@ -17,8 +23,8 @@ session_start();
             }
             
             #splash {
-                margin-left: -75px;
-                margin-top: -170px;
+                margin-left: -120px;
+                margin-top: -190px;
             }
             
             #form   {
@@ -53,7 +59,7 @@ session_start();
             <img src="images/gumball-machine.gif" id="imgcandy" />
             <br />
             <br />
-            <span id="message">Choose your location</span>
+            <span id="message">Choose your machine</span>
             <form id="frmPurchase" name="frmPurchase" action="redirect.php" method="POST">
                 <select id="location" name="location">
                     <option value="jeffprestes/candies/paulista" selected="selected">Brazil, Sao Paulo, Paulista</option>

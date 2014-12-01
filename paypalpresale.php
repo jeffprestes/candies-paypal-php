@@ -66,7 +66,7 @@ $transaction->setAmount($amount)
 // payment approval/ cancellation.
 $baseUrl = getBaseUrl();
 $redirectUrls = new RedirectUrls();
-$redirectUrls->setReturnUrl("$baseUrl/paypalpostsale.php?success=true")
+$redirectUrls->setReturnUrl("$baseUrl/paypalpostsale.php?success=true&app=html")
     ->setCancelUrl("$baseUrl/paypalpostsale.php?success=false");
 
 // ### Payment
@@ -106,5 +106,5 @@ foreach ($payment->getLinks() as $link) {
 
 $_SESSION['approvalUrl'] = $approvalUrl;
 
-header("Location: selectmachine.php");
+header("Location: selectmachine.php?app=html");
 ?>
