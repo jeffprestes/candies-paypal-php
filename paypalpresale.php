@@ -25,7 +25,7 @@ $item1 = new Item();
 $item1->setName('Candies')
     ->setCurrency('BRL')
     ->setQuantity(1)
-    ->setPrice(0.5);
+    ->setPrice(1);
 
 $itemList = new ItemList();
 $itemList->setItems(array($item1));
@@ -47,7 +47,7 @@ $details->setShipping(1.2)
 // You can also specify additional details
 // such as shipping, tax.
 $amount = new Amount();
-$amount->setCurrency("BRL")->setTotal(0.5);
+$amount->setCurrency("BRL")->setTotal(1);
 //    ->setDetails($details);
  
 

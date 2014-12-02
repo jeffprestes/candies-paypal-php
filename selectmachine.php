@@ -63,6 +63,7 @@ if ($app == 'checkin')      {
             <form id="frmPurchase" name="frmPurchase" action="redirect.php" method="POST">
                 <select id="location" name="location">
                     <option value="jeffprestes/candies/paulista" selected="selected">Brazil, Sao Paulo, Paulista</option>
+                    <option value="jeffprestes/candies/demo" selected="selected">Brazil, Sao Paulo, Demonstration</option>
                 </select>
                 <br /><br />
                 <input type="button" id="btn" value="" onclick="tradicional()" />
