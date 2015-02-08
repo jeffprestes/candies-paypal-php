@@ -22,10 +22,10 @@ $payer->setPaymentMethod("paypal");
 // (Optional) Lets you specify item wise
 // information
 $item1 = new Item();
-$item1->setName('Candies')
+$item1->setName('Doces')
     ->setCurrency('BRL')
     ->setQuantity(1)
-    ->setPrice(1);
+    ->setPrice(2);
 
 $itemList = new ItemList();
 $itemList->setItems(array($item1));
@@ -47,7 +47,7 @@ $details->setShipping(1.2)
 // You can also specify additional details
 // such as shipping, tax.
 $amount = new Amount();
-$amount->setCurrency("BRL")->setTotal(1);
+$amount->setCurrency("BRL")->setTotal(2);
 //    ->setDetails($details);
  
 
@@ -58,7 +58,7 @@ $amount->setCurrency("BRL")->setTotal(1);
 $transaction = new Transaction();
 $transaction->setAmount($amount)
     ->setItemList($itemList)
-    ->setDescription("Buy candies and be happy")
+    ->setDescription("Doe e ganhe doces")
     ->setInvoiceNumber(uniqid());
 
 // ### Redirect urls

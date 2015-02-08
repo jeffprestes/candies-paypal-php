@@ -29,7 +29,6 @@ function sendReleaseMessage()   {
 
     $msg = "release";
 
-    # mosquitto_sub -t 'sskaje/#'  -q 1 -h test.mosquitto.org
     $retorno = $mqtt->publish($_SESSION['location'], $msg, 0, 2, 0, 1);
     
     return ($retorno['ret']>0);
@@ -50,30 +49,37 @@ if ($mock != '1')   {
         // a different payment execution is performed
          
         if ($app == 'html')     {
-            // Get the payment Object by passing paymentId
-            // payment id was previously stored in session in
-            // CreatePaymentUsingPayPal.php
-            $paymentId = $_GET['paymentId'];
-            $payment = Payment::get($paymentId, $apiContext);
+            
+            try {
+                // Get the payment Object by passing paymentId
+                // payment id was previously stored in session in
+                // CreatePaymentUsingPayPal.php
+                $paymentId = $_GET['paymentId'];
+                $payment = Payment::get($paymentId, $apiContext);
 
-            // PaymentExecution object includes information necessary
-            // to execute a PayPal account payment.
-            // The payer_id is added to the request query parameters
-            // when the user is redirected from paypal back to your site
-            $execution = new PaymentExecution();
-            $execution->setPayerId($_GET['PayerID']);
-            //Execute the payment
-            // (See bootstrap.php for more on `ApiContext`)
-            $result = $payment->execute($execution, $apiContext);
+                // PaymentExecution object includes information necessary
+                // to execute a PayPal account payment.
+                // The payer_id is added to the request query parameters
+                // when the user is redirected from paypal back to your site
+                $execution = new PaymentExecution();
+                $execution->setPayerId($_GET['PayerID']);
+                //Execute the payment
+                // (See bootstrap.php for more on `ApiContext`)
+                $result = $payment->execute($execution, $apiContext);
 
-            if ($result->getState()=="approved")    {
-                if (sendReleaseMessage())    {
-                    $response = "{status: success!}";
-                }   else    {
-                    $error = "It was not possible connect to Candy Machine. Please try again.";
+                if ($result->getState()=="approved")    {
+                    if (sendReleaseMessage())    {
+                        $response = "{status: success!}";
+                    }   else    {
+                        $error = "It was not possible connect to Candy Machine. Please try again.";
+                    }
+                } else {
+                    $error = "Payment was not approved";
                 }
-            } else {
-                $error = "Payment was not approved";
+            } catch (Exception $ex) {
+                $error = "It was not possible connect to Candy Machine or charge your card (" . $ex->getMessage() . "). Please try again.";
+                
+                $response = "";
             }
             
         //CheckIn Payment    
@@ -168,17 +174,17 @@ if ($mock != '1')   {
         <img src='https://openclipart.org/image/300px/svg_to_png/173135/Happy_Tiger.png'>
         <br />
         <br />
-        <span id="message">Take your candies!</span>
+        <span id="message">Pegue seu copo de doces</span>
 
         <br />
         <br/>
-	<a href="index.php">Buy again</a>
+	<a href="index.php">Compre novamente</a>
     </div>
     <div id="failed">
         <span id="errormessage">&nbsp;</span>
         <br />
         <br />
-	<a href="index.html">Buy it again</a>
+	<a href="index.php">Compre novamente</a>
     </div>
 </body>
 </html>
