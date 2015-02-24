@@ -66,7 +66,7 @@ $transaction->setAmount($amount)
 // payment approval/ cancellation.
 $baseUrl = getBaseUrl();
 $redirectUrls = new RedirectUrls();
-$redirectUrls->setReturnUrl("$baseUrl/paypalpostsale.php?success=true&app=html")
+$redirectUrls->setReturnUrl("$baseUrl/paypalpostsale.php?success=true&app=html&origem=" . $_GET["origem"])
     ->setCancelUrl("$baseUrl/paypalpostsale.php?success=false");
 
 // ### Payment

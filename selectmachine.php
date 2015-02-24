@@ -69,12 +69,6 @@ if ($app == 'checkin')      {
                 <input type="button" id="btn" value="" onclick="tradicional()" />
             </form>
         </div>
-        <br /><br />
-        <div id="mobileapp">
-            <a href="http://play.google.com/store/apps/details?id=br.com.novatrix.candies">
-                <img border="0" src="http://r-ec.bstatic.com/static/img/mobile/apps_landing/bapps-ps/7d831795522cf482dd76604ae6a41e59164c463d.png" />
-            </a>
-        </div>
     </body>
 </html>
 

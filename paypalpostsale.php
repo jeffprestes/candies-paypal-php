@@ -12,6 +12,7 @@ session_start();
 require 'bootstrap.php';
 require 'spMQTT.class.php';
 
+
 use PayPal\Api\ExecutePayment;
 use PayPal\Api\Payment;
 use PayPal\Api\PaymentExecution;
@@ -179,6 +180,14 @@ if ($mock != '1')   {
         <br />
         <br/>
 	<a href="index.php">Compre novamente</a>
+        <br />
+        <br />
+        <span>Ou baixe o aplicativo</span>
+        <br />
+        <br />
+        <a href="http://play.google.com/store/apps/details?id=br.com.novatrix.candies">
+                <img border="0" src="http://r-ec.bstatic.com/static/img/mobile/apps_landing/bapps-ps/7d831795522cf482dd76604ae6a41e59164c463d.png" />
+        </a>
     </div>
     <div id="failed">
         <span id="errormessage">&nbsp;</span>

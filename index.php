@@ -74,13 +74,13 @@
     </head>
     <body>
         <div id="splash">
-            <img src="images/gumball-machine.gif" id="imgcandy" />
+            <img src="https://www.novatrix.com.br/candies-paypal-php/images/gumball-machine.gif" id="imgcandy" />
             <br />
             <br />
-            <span id="message" class="animated pulse">Loading</span>
+            <span id="message" class="animated pulse">Loading...</span>
         </div>
         <script>
-            window.location = '/candies-paypal-php/paypalpresale.php';
+            window.location = '/candies-paypal-php/paypalpresale.php?origem=doces';
         </script>
     </body>
 </html>
